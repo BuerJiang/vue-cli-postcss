@@ -15,9 +15,11 @@ import './assets/core.css'
 // 引入flexible
 import 'lib-flexible'
 import '../src/utils/flexible'
+// 引入swiper轮播图插件
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+import 'swiper/swiper-bundle.css'
+Vue.use(VueAwesomeSwiper);
 
-
-// 引入swiper
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 Vue.prototype.common = common
