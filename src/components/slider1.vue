@@ -10,6 +10,7 @@
             maxlength="30"
             autocomplete="off"
             v-model="val"
+            autofocus
           />
         </div>
         <div class="submit position-absolute">
@@ -38,22 +39,24 @@ export default {
   props: ["onNext"],
   data() {
     return {
-      // beforeFlag: true
       val: "",
       valPlaceholder: "メールアドレスを入力してください",
       flag: false,
       flagMsg: "提出完了",
+      mouseFlag: this.onNext,
     };
   },
   created() {
-    this.initData();
-    console.log(this.onNext);
   },
   methods: {
     submit() {
       //   // FBQ 事件
       fbq("track", "Schedule");
       gtag("event", "开始预注册");
+
+      // 此时禁止轮播图滑动
+      this.mouseFlag = false;
+      this.$emit("handleEVent", this.mouseFlag);
 
       // 验证邮箱正确性
       const reg = new RegExp(
@@ -64,10 +67,6 @@ export default {
         this.flagMsg =
           "メールアドレスに誤りがあります、ご確認の上お書き直しください";
         this.flag = true;
-        this.onNext = true;
-        console.log("this.onNext ", this.onNext);
-        this.$emit('handleOnNext', this.onNext)
-
         this.val = "";
       } else {
         //   邮箱输入正确后，调API
@@ -114,43 +113,13 @@ export default {
           })
           .catch((err) => {});
       }
-      //   this.initData();
     },
 
-    initData() {
-      //test 测试
-      const reqTime = Math.floor(new Date().getTime() / 1000);
-      this.$axios({
-        method: "post",
-        url: "merufura/info",
-        data: {
-          //get这里应为params
-          //请求参数
-          signature: this.common.makeSignature({}, reqTime),
-          reqTime: reqTime,
-          //   account: this.val,
-          //   game: 601,
-          //   type: 1,
-          //   signature: this.common.makeSignature({}, reqTime),
-          //   reqTime: reqTime,
-          //   source: "unknow",
-          //   target: "unknow",
-        },
-        //withCredentials:true, //局部携带cookie
-        headers: {}, //如果需要添加请求头可在这写
-      })
-        .then((res) => {
-          //res是返回结果
-          //你的下一步操作 例:
-        })
-        .catch((err) => {
-          //请求失败就会捕获报错信息
-          //err.response可拿到服务器返回的报错数据
-        });
-    },
-
+ 
     handleModel() {
       this.flag = false;
+      this.mouseFlag = true;
+      this.$emit("handleClose", this.mouseFlag);
     },
   },
 };

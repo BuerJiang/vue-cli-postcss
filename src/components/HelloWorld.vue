@@ -9,12 +9,13 @@
     <!-- logo -->
     <div class="logo position-absolute"></div>
     <!-- 全屏滚动 -->
-    <swiper :options="swiperOption">
+    <swiper :options="swiperOption" ref="goodSwiper" class="swiper-no-swiping">
       <swiper-slide>
         <slider1
           ref="showSilder"
           :onNext="nextShow"
-          @handleOnNext="handleOnNext"
+          @handleClose="handleClose"
+          @handleEVent="handleEVent"
         />
       </swiper-slide>
       <swiper-slide>
@@ -29,6 +30,7 @@
       </swiper-slide>
       <div
         class="swiper-pagination swiper-pagination-home"
+        :class="nextShow ? '' : 'swiperNoSwiping'"
         slot="pagination"
       ></div>
     </swiper>
@@ -44,13 +46,13 @@ export default {
   },
   data() {
     return {
-      nextShow: false,
+      nextShow: true,
       swiperOption: {
         direction: "vertical",
         observer: true, //修改swiper自己或子元素时，自动初始化swiper
         observeParents: true, //修改swiper的父元素时，自动初始化swiper
-        mousewheel: true, //开启鼠标滚轮控制Swiper切换。可设置鼠标选项，默认值false
         height: window.innerHeight, // 高度设置，占满设备高度
+        mousewheel: true, //开启鼠标
         pagination: {
           el: ".swiper-pagination-home",
           bulletClass: "my-bullet", //需设置.my-bullet样式
@@ -99,23 +101,59 @@ export default {
             );
           },
         },
-        mousewheel: true, //开启鼠标
       },
     };
   },
-  created() {},
+  created() {
+    this.initData();
+  },
   mounted() {},
   computed: {},
   methods: {
-    handleOnNext(val) {
+    // info
+    initData() {
+      //test 测试
+      const reqTime = Math.floor(new Date().getTime() / 1000);
+      this.$axios({
+        method: "post",
+        url: "merufura/info",
+        data: {
+          //get这里应为params
+          //请求参数
+          signature: this.common.makeSignature({}, reqTime),
+          reqTime: reqTime,
+        },
+        //withCredentials:true, //局部携带cookie
+        headers: {}, //如果需要添加请求头可在这写
+      })
+        .then((res) => {
+          //res是返回结果
+          //你的下一步操作 例:
+        })
+        .catch((err) => {
+          //请求失败就会捕获报错信息
+          //err.response可拿到服务器返回的报错数据
+        });
+    },
+
+    handleClose(val) {
       this.nextShow = val;
-      console.log("我在父组件", val, this.nextShow);
-      let mySwiper = new Swiper(".swiper-container");
-      mySwiper.lockSwipes();
+      this.swiperOption.mousewheel = val;
+
+      this.$refs.goodSwiper.swiper.destroy(); //先销毁
+      this.$refs.goodSwiper.mountInstance(); //后在加载
+    },
+    handleEVent(val) {
+      this.nextShow = val;
+      this.swiperOption.mousewheel = val;
+
+      this.$refs.goodSwiper.swiper.destroy(); //先销毁
+      this.$refs.goodSwiper.mountInstance(); //后在加载
     },
   },
 };
 </script>
+
 <style lang="scss" >
 .area {
   position: absolute;
@@ -196,5 +234,9 @@ export default {
   img {
     width: 90%;
   }
+}
+// 轮播图失去焦点
+.swiperNoSwiping {
+  pointer-events: none;
 }
 </style>
