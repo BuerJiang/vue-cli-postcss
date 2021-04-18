@@ -19,6 +19,7 @@ import 'swiper/swiper-bundle.css'
 
 //转rem
 import 'amfe-flexible' 
+import './commonFunction/rem'
 
 // 引入swiper
 Vue.prototype.$axios = axios
@@ -27,7 +28,8 @@ Vue.prototype.common = common
 Vue.prototype.md5 = md5
 Vue.use(VueAwesomeSwiper)
 // Vue.prototype.HOST = '/api'
-axios.defaults.baseURL = '/api'
+axios.defaults.baseURL = 'https://api-register.ujoygames.com'
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

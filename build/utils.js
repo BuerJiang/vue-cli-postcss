@@ -22,7 +22,7 @@ exports.cssLoaders = function (options) {
     }
   }
 
-  
+
   const postcssLoader = {
     loader: 'postcss-loader',
     options: {
@@ -30,7 +30,7 @@ exports.cssLoaders = function (options) {
     }
   }
   // generate loader string to be used with extract text plugin
-  function generateLoaders (loader, loaderOptions) {
+  function generateLoaders(loader, loaderOptions) {
     const loaders = options.usePostCSS ? [cssLoader, postcssLoader] : [cssLoader]
 
     if (loader) {
@@ -47,6 +47,7 @@ exports.cssLoaders = function (options) {
     if (options.extract) {
       return ExtractTextPlugin.extract({
         use: loaders,
+        publicPath: '../../', // 打包后的img地址
         fallback: 'vue-style-loader'
       })
     } else {

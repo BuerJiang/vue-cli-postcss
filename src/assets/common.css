@@ -4,17 +4,24 @@ html{
 html, body{
     position: relative;
     height: 100%;
-    width: 100%;
+    /* width: 100%; */
 }
 body{
     /* min-width: 1280px;
     max-width: 1980px; */
+    max-width: 1980px; 
     margin: 0 auto;
     overflow: hidden;
 }
 .btn{
     
 }
+.font-size-16{
+    font-size: 16px;
+}
+/* img {
+    width: 100%;
+  } */
 .m-0{
     margin: 0;
 }
@@ -43,6 +50,9 @@ body{
 .center {
     text-align: center;
 }
+.text-align-right {
+    text-align: right;
+}
 input,input:focus{
 
 box-shadow: none !important;
@@ -66,6 +76,10 @@ box-shadow: none !important;
 .justify-content-around{-ms-flex-pack:distribute!important;justify-content:space-around!important}
 .align-items-center{-ms-flex-align:center!important;align-items:center!important}
 .justify-content-between{-ms-flex-pack:justify!important;justify-content:space-between!important}
+.justify-content-center{-ms-flex-pack:justify!important;justify-content:center!important}
+.fl{
+    float: left;
+}
 .mb-3{
     margin-bottom: 24px;
 }
@@ -91,6 +105,15 @@ box-shadow: none !important;
 .vertical-align-middle{
     vertical-align: middle
 }
+/* 弹出框背景色 */
+.model {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+
+  }
 /* 箭头动画 */
 .arrows {
     width: 24px;
@@ -126,7 +149,54 @@ box-shadow: none !important;
     opacity: 0;
   }
 }
-/* m1 */
+.txt{
+    width: 100%;
+    height: 100%;
+}
+.ml-18{
+    margin-left: 18px;
+}
+.ml-12{
+    margin-left: 12px;
+}
 
-/* 
- */
+/* 点击弹出框，动画 */
+
+.zoomIn {
+    -webkit-animation-name: zoomIn;
+    animation-name: zoomIn;
+  }
+
+  @keyframes zoomIn {
+    0% {
+        -webkit-transform: scale3d(0.3, 0.3, 0.3);
+        opacity: 0;
+        transform: scale3d(0.3, 0.3, 0.3);
+}
+    50% {
+        opacity: 1; 
+    
+    }
+  }
+
+
+.animated {
+    
+    animation-duration: 1s;
+    animation-fill-mode: both
+}
+
+.animated.faster {
+    -webkit-animation-duration: .5s;
+    animation-duration: .5s
+}
+
+
+@media (prefers-reduced-motion),(print) {
+    .animated {
+        -webkit-animation: unset !important;
+        -webkit-transition: none !important;
+        animation: unset !important;
+        transition: none !important
+    }
+}
